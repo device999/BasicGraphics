@@ -1,0 +1,39 @@
+import sys
+import os
+
+
+platform = sys.platform
+
+env = Environment(CXXFLAGS="-std=c++0x")
+ 
+sources = Split("""
+gl2ps.c
+matplotpp.cpp
+SimpleGraph.cpp
+SimpleImage.cpp
+""")
+
+if platform != "win32":
+    libs=["GL", "glut", "GLU"]
+else:
+    libs=["freeglut"]
+
+env.Append(CPPPATH = ['freeglut/include'])
+env.Append(LIBPATH = ['freeglut/lib/x64'])
+
+object_list = env.Object(source = sources)
+exe = env.Program( target = 'sol_exercise2', source = object_list + ["sol_exercise2.cpp"], LIBS=libs )
+
+object_list = env.Object(source = sources)
+exe = env.Program( target = 'sol_exercise3', source = object_list + ["sol_exercise3.cpp"], LIBS=libs )
+
+object_list = env.Object(source = sources)
+exe = env.Program( target = 'sol_exercise4', source = object_list + ["sol_exercise4.cpp"], LIBS=libs )
+
+#env.MSVSProject(target = 'sol_1' + env['MSVSPROJECTSUFFIX'],
+#                srcs = sources,
+#                buildtarget = exe,
+#                variant = 'Release')
+
+
+                
